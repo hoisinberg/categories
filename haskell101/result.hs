@@ -1,6 +1,5 @@
 module Result where
 import qualified GHC.Err as GHC
-import Distribution.Simple (VersionInterval)
 
 type Result v = Either v [String]
 
