@@ -53,8 +53,9 @@ length' :: [a] -> Int
 length' = foldl' (+) 0 . fmap' (const' 1)
 
 repeat' :: Int -> a -> [a]
-repeat' 0 _ = []
-repeat' n x = x : repeat' (n - 1) x
+repeat' n x
+  | n > 0 = x : repeat' (n-1) x
+  | otherwise = []
 
 reverse' :: [a] -> [a]
 reverse' = foldl' (flip (:)) []
