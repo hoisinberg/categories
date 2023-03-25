@@ -1,8 +1,8 @@
-module Ex11 (encodeModified) where
+module Ex11 (Encoded(Single, Multiple), encodeModified) where
 import Ex10
 import Lib.ListOp
 
-data Encoded a = Multiple Int a | Single a deriving (Show)
+data Encoded a = Single a | Multiple Int a deriving (Show)
 
 encodeModified :: (Eq a) => [a] -> [Encoded a]
 encodeModified = fmap' makeDesc . encode
