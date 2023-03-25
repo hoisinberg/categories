@@ -1,6 +1,7 @@
 module Lib.ListOp
   ( append',
     bind',
+    concat',
     elementAt',
     filter',
     fmap',
