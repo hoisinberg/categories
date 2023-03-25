@@ -1,5 +1,6 @@
 module Lib.ListOp
-  ( bind',
+  ( append',
+    bind',
     elementAt',
     filter',
     fmap',
@@ -19,6 +20,9 @@ import Lib.Fn (const')
 import Lib.Maybe (Maybe' (..))
 
 -- Public
+append' :: a -> [a] -> [a]
+append' x = foldr' (:) [x]
+
 bind' :: [a] -> (a -> [b]) -> [b]
 bind' [] _ = []
 bind' (x : xs) f = concat' (f x) (bind' xs f)
