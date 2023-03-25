@@ -99,6 +99,12 @@ sameList' (x : xs) (y : ys) = (x == y) && sameList' xs ys
 slice' :: Int -> Int -> [a] -> [a]
 slice' b e = fmap' snd . filter' (\(i, _) -> i >= b && i < e) . index'
 
+skip' :: Int -> [a] -> [a]
+skip' n = fmap' snd' . filter' (\(i, _) -> i >= n) . index'
+
+take' :: Int -> [a] -> [a]
+take' n = fmap' snd' . filter' (\(i, _) -> i < n) . index'
+
 -- Private
 checkedElementAt' :: [a] -> Int -> Maybe' a
 checkedElementAt' [] _ = Absent
