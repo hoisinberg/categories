@@ -11,6 +11,7 @@ module Lib.ListOp
     head',
     index',
     length',
+    remove',
     repeat',
     reverse',
     sameList',
@@ -20,6 +21,7 @@ where
 
 import Lib.Fn (const')
 import Lib.Maybe (Maybe' (..))
+import Lib.Pair
 
 -- Public
 append' :: a -> [a] -> [a]
@@ -70,6 +72,9 @@ index' = assignIndex 0 where
 
 length' :: [a] -> Int
 length' = foldl' (+) 0 . fmap' (const' 1)
+
+remove' :: Int -> [a] -> [a]
+remove' n = fmap' snd' . filter' (\(i, _) -> i /= n) . index'
 
 repeat' :: Int -> a -> [a]
 repeat' n x
