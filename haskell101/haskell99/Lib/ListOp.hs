@@ -1,11 +1,13 @@
 module Lib.ListOp
   ( bind',
     elementAt',
+    filter',
     fmap',
     foldl',
     foldr',
     generate',
     head',
+    index',
     length',
     repeat',
     reverse',
@@ -30,6 +32,12 @@ elementAt' l n =
     then checkedElementAt l n
     else Absent
 
+filter' :: (a -> Bool) -> [a] -> [a]
+filter' _ [] = []
+filter' p (x:xs)
+  | p x = x : filter p xs
+  | otherwise = filter p xs
+
 fmap' :: (a -> b) -> [a] -> [b]
 fmap' _ [] = []
 fmap' f (x : xs) = f x : fmap' f xs
@@ -48,6 +56,11 @@ generate' x p f = if p x then x : generate' (f x) p f else []
 head' :: [a] -> Maybe' a
 head' [] = Absent
 head' (x:xs) = Present x
+
+index' :: [a] -> [(Int, a)]
+index' = assignIndex 0 where
+  assignIndex n [] = []
+  assignIndex n (x:xs) = (n, x) : assignIndex (n+1) xs
 
 length' :: [a] -> Int
 length' = foldl' (+) 0 . fmap' (const' 1)
