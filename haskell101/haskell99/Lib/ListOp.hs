@@ -13,6 +13,7 @@ module Lib.ListOp
     repeat',
     reverse',
     sameList',
+    slice'
   )
 where
 
@@ -81,6 +82,9 @@ sameList' :: (Eq a) => [a] -> [a] -> Bool
 sameList' [] [] = True
 sameList' [] (y : ys) = False
 sameList' (x : xs) (y : ys) = (x == y) && sameList' xs ys
+
+slice' :: Int -> Int -> [a] -> [a]
+slice' b e = fmap' snd . filter' (\(i, _) -> i >= b && i < e) . index'
 
 -- Private
 checkedElementAt :: [a] -> Int -> Maybe' a
