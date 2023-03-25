@@ -10,6 +10,7 @@ module Lib.ListOp
     generate',
     head',
     index',
+    insert',
     length',
     remove',
     repeat',
@@ -69,6 +70,12 @@ index' :: [a] -> [(Int, a)]
 index' = assignIndex 0 where
   assignIndex n [] = []
   assignIndex n (x:xs) = (n, x) : assignIndex (n+1) xs
+
+insert' :: Int -> a -> [a] -> [a]
+insert' _ x [] = [x]
+insert' n x (y:ys)
+  | n > 0 = y : insert' (n-1) x ys
+  | otherwise = x:y:ys
 
 length' :: [a] -> Int
 length' = foldl' (+) 0 . fmap' (const' 1)
