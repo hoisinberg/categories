@@ -38,7 +38,7 @@ concat' xs ys = foldr' (:) ys xs
 elementAt' :: [a] -> Int -> Maybe' a
 elementAt' l n =
   if n >= 0
-    then checkedElementAt l n
+    then checkedElementAt' l n
     else Absent
 
 filter' :: (a -> Bool) -> [a] -> [a]
@@ -100,7 +100,7 @@ slice' :: Int -> Int -> [a] -> [a]
 slice' b e = fmap' snd . filter' (\(i, _) -> i >= b && i < e) . index'
 
 -- Private
-checkedElementAt :: [a] -> Int -> Maybe' a
-checkedElementAt [] _ = Absent
-checkedElementAt (x : xs) 0 = Present x
-checkedElementAt (x : xs) n = checkedElementAt xs (n - 1)
+checkedElementAt' :: [a] -> Int -> Maybe' a
+checkedElementAt' [] _ = Absent
+checkedElementAt' (x : xs) 0 = Present x
+checkedElementAt' (x : xs) n = checkedElementAt' xs (n - 1)
