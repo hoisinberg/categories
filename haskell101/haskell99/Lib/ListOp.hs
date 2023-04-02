@@ -4,9 +4,12 @@ module Lib.ListOp
     concat',
     elementAt',
     filter',
+    flatten',
     fmap',
     foldl',
     foldr',
+    fromMaybe',
+    front',
     generate',
     head',
     index',
@@ -47,6 +50,9 @@ filter' p (x:xs)
   | p x = x : filter p xs
   | otherwise = filter p xs
 
+flatten' :: (a -> [b]) -> [a] -> [b]
+flatten' f l = bind' l f
+
 fmap' :: (a -> b) -> [a] -> [b]
 fmap' _ [] = []
 fmap' f (x : xs) = f x : fmap' f xs
@@ -59,6 +65,13 @@ foldr' :: (a -> b -> b) -> b -> [a] -> b
 foldr' _ x [] = x
 foldr' f x (y : ys) = f y (foldr' f x ys)
 
+fromMaybe' :: Maybe' a -> [a]
+fromMaybe' Absent = []
+fromMaybe' (Present x) = [x]
+
+front' :: Int -> [a] -> [a]
+front' n = fmap' snd' . filter (\(i, _) -> i < n) . index'
+
 generate' :: a -> (a -> Bool) -> (a -> a) -> [a]
 generate' x p f = if p x then x : generate' (f x) p f else []
 
@@ -68,7 +81,7 @@ head' (x:xs) = Present x
 
 index' :: [a] -> [(Int, a)]
 index' = assignIndex 0 where
-  assignIndex n [] = []
+  assignIndex _ [] = []
   assignIndex n (x:xs) = (n, x) : assignIndex (n+1) xs
 
 insert' :: Int -> a -> [a] -> [a]
@@ -96,11 +109,11 @@ sameList' [] [] = True
 sameList' [] (y : ys) = False
 sameList' (x : xs) (y : ys) = (x == y) && sameList' xs ys
 
-slice' :: Int -> Int -> [a] -> [a]
-slice' b e = fmap' snd . filter' (\(i, _) -> i >= b && i < e) . index'
-
 skip' :: Int -> [a] -> [a]
 skip' n = fmap' snd' . filter' (\(i, _) -> i >= n) . index'
+
+slice' :: Int -> Int -> [a] -> [a]
+slice' b e = fmap' snd . filter' (\(i, _) -> i >= b && i < e) . index'
 
 take' :: Int -> [a] -> [a]
 take' n = fmap' snd' . filter' (\(i, _) -> i < n) . index'
